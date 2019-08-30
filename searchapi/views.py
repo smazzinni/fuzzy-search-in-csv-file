@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from difflib import get_close_matches
 from rest_framework.response import Response
 import json
@@ -30,7 +30,7 @@ def keyword_search_api(request):
     if q:
         res_temp = class_search_api(q)
         context = {'result': class_search_api(q)}
-        print(context)
+        #print(context)
         q = ""
     return render(request, 'searchapi/index.html', context)
     #return JsonResponse(json.loads(json.dumps(res_temp)))
@@ -41,7 +41,8 @@ def keyword_search_api(request):
 def class_search_api(keywd):
     #Open .TSV file path
     filename = 'word_search.tsv'
-    myfile = os.path.join('C:\\Users\\shoeb\\PycharmProjects\\DjangoApi', filename)
+    abs_path = os.path.dirname(__file__)
+    myfile = os.path.join(abs_path, filename)
 
 
     all = []
@@ -69,3 +70,7 @@ def class_search_api(keywd):
         res_temp = dict(zip(range(1, 26),res_temp ))                       #convet the result into dict
 
     return res_temp
+
+def redirect_index(request):
+    response = redirect('api/v2/search')
+    return response
