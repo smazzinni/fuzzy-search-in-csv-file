@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from searchapi.views import file_details, keyword_search_api
+from searchapi.views import file_details, keyword_search_api, redirect_index
 
 urlpatterns = [
-
+    path('', redirect_index),
     path('api/v2/search', keyword_search_api),
     path('api/v1/<str:keywd>/', file_details),
     path('admin/', admin.site.urls),
